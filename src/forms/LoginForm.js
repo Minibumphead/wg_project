@@ -1,5 +1,5 @@
-import axios from 'axios'
-import { useState, useEffect} from 'react'
+
+import { useState } from 'react'
 import { login } from '../services'
 import './formstyles.css'
 
@@ -13,7 +13,7 @@ export default function LoginForm({history}) {
         password: "",
         confirm: ""
     })
-    const [user, setUser] = useState({})
+
     const handleChange = (event) => {
         if (event.target.name === "username"){
             setFormdata({...formData, username: event.target.value})
@@ -24,7 +24,7 @@ export default function LoginForm({history}) {
 
     const handleSubmit = async(event) => {
         event.preventDefault()
-        const user = await login(formData)
+        await login(formData)
         setFormdata({
             username: "",
             email: "",

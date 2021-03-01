@@ -1,12 +1,11 @@
 import axios from 'axios'
-import { useState, useEffect} from 'react'
-import { login } from './../services/index'
+import { useState } from 'react'
+
 import './formstyles.css'
 
 
 // prop history is passed when you use component = {} within <Route /> component
 export default function RegisterForm({ history }) {
-    const [user, setUser] = useState({})
     const [formData, setFormdata] = useState({
         username: "",
         email: "",
@@ -28,10 +27,6 @@ export default function RegisterForm({ history }) {
     const handleSubmit = async(event) => {
             try {
                 event.preventDefault()
-                const loginData = {
-                    username: formData.username,
-                    password: formData.password
-                }
                 const {data} = await axios.post("http://localhost:5000/users", formData)
                 localStorage.setItem("user", JSON.stringify(data))
                 setFormdata({
@@ -48,11 +43,6 @@ export default function RegisterForm({ history }) {
                 console.log('try not successful')
             }
     }
-
-    // useEffect(() => {
-    //     setUser(JSON.parse(localStorage.getItem("user")))
-    // }, [history.location])
-
 
     return (
         <>

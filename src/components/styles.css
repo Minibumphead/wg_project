@@ -1,0 +1,23 @@
+.user-container {
+    background-color: green;
+    width: 400px;
+    border-radius: 15px;
+    padding: 25px;
+    box-sizing: border-box;
+    margin-bottom: 25px;
+}
+
+.user-detail{
+    color: white;
+    margin-bottom: 10px;
+    font-weight: 900
+}
+
+.user-container button {
+    background-color: red;
+    color: white;
+    font-weight: 600;
+    padding: 5px;
+    border-radius: 3px;
+
+}
