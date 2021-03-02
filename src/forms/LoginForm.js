@@ -24,17 +24,11 @@ export default function LoginForm({history}) {
 
     const handleSubmit = async(event) => {
         event.preventDefault()
-        await login(formData)
-
-
-        history.push('/')
-        setFormdata({
-            username: "",
-            email: "",
-            password: "",
-            confirm: ""
-        })
+        
+            if (await login(formData)){
+                history.push('/')
     }
+}
 
 
     return (
