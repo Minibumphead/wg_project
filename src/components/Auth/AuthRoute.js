@@ -3,17 +3,13 @@ import { Route, Redirect } from 'react-router-dom'
 
 
 export default function AuthRoute({component: Component, ...rest}) {
-    console.log('redered auth ROute')
-    let isAuth = true
+    let isAuth = false
 
     const auth = JSON.parse(localStorage.getItem("user"))
-    console.log(auth)
-    if (!auth){
-        isAuth = false
+    
+    if(auth) {
+        isAuth = true
     }
-
-
-
 
     return (
         <Route 

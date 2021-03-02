@@ -14,7 +14,7 @@ function Header({history, ...props}) {
                 {user ? 
                 <ul>
                     <div className="link-wrapper-logo"><Link to="/"><li className="item">HOME</li></Link></div>
-                    <div className="link-wrapper"><Link to="/admin"><button onClick={logout} className="item">Admin</button></Link></div>
+                    <div className="link-wrapper"><Link to="/admin"><button className="item">Admin</button></Link></div>
                     <div className="link-wrapper"><Link to="/logout"><button onClick={logout} className="item">Logout</button></Link></div>
                    
                 </ul>: 

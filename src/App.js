@@ -21,7 +21,7 @@ const App = () => {
           <Route exact path="/login" component={LoginForm}/>
           <Route exact path="/register" component={RegisterForm} />
           <AuthRoute exact path="/admin" component={Admin} />
-          </Switch>
+        </Switch>
     </Router>
   )
 }
