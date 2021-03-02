@@ -28,22 +28,9 @@ export default function LoginForm({history}) {
     const handleSubmit = async(event) => {
         console.log(formData)
         event.preventDefault()
-<<<<<<< HEAD
-        const user = await login(formData)
-
-
-        history.push('/')
-        setFormdata({
-            username: "",
-            email: "",
-            password: "",
-            confirm: ""
-        })
-=======
         
             if (await login(formData)){
                 history.push('/')
->>>>>>> main
     }
 }
 
