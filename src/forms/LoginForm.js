@@ -9,10 +9,6 @@ export default function LoginForm({history}) {
 
     const [formData, setFormdata] = useState({
         username: "",
-<<<<<<< HEAD
-=======
-
->>>>>>> main
         password: ""
 
     })
