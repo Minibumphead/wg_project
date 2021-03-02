@@ -1,6 +1,6 @@
 
 import { useState } from 'react'
-import { login } from '../services'
+import { login } from './../services/index'
 import './formstyles.css'
 
 
@@ -9,9 +9,9 @@ export default function LoginForm({history}) {
 
     const [formData, setFormdata] = useState({
         username: "",
-        email: "",
-        password: "",
-        confirm: ""
+
+        password: ""
+
     })
 
     const handleChange = (event) => {
@@ -25,14 +25,15 @@ export default function LoginForm({history}) {
     const handleSubmit = async(event) => {
         event.preventDefault()
         await login(formData)
+
+
+        history.push('/')
         setFormdata({
             username: "",
             email: "",
             password: "",
             confirm: ""
         })
-        history.push('/')
-       
     }
 
 
