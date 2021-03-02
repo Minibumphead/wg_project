@@ -1,8 +1,8 @@
 import './styles.css'
 import { deleteUser } from './../services/index'
-import { useState, useEffect } from 'react'
 
-export default function UserDetailComponent({user, allUsers, setAllUsers, authUser}) {
+
+export default function UserDetailComponent({user, setAllUsers, authUser}) {
     const handleDelete = async(user) => {
        
         // console.log(authUser._id)
