@@ -9,6 +9,10 @@ export default function LoginForm({history}) {
 
     const [formData, setFormdata] = useState({
         username: "",
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
         password: ""
 
     })
@@ -24,6 +28,7 @@ export default function LoginForm({history}) {
     const handleSubmit = async(event) => {
         console.log(formData)
         event.preventDefault()
+<<<<<<< HEAD
         const user = await login(formData)
 
 
@@ -34,7 +39,13 @@ export default function LoginForm({history}) {
             password: "",
             confirm: ""
         })
+=======
+        
+            if (await login(formData)){
+                history.push('/')
+>>>>>>> main
     }
+}
 
 
     return (
