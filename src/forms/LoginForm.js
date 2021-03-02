@@ -22,7 +22,7 @@ export default function LoginForm({history}) {
     }
 
     const handleSubmit = async(event) => {
-        console.log(formData)
+    
         event.preventDefault()
         
             if (await login(formData)){

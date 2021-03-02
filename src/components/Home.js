@@ -3,10 +3,9 @@ import { useState, useEffect } from 'react'
 
 
 
-export default function Home(props) {
+export default function Home({history}) {
 
     const [user, setUser] = useState({})
-
     useEffect(() => 
         {
         setUser(JSON.parse(localStorage.getItem("user")))},[]
