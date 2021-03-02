@@ -11,7 +11,7 @@ function Header({history, ...props}) {
     return(
         <>
             <nav>
-                { ? 
+                {user ? 
                 <ul>
                     <div className="link-wrapper-logo"><Link to="/"><li className="item">HOME</li></Link></div>
                     <div className="link-wrapper"><Link to="/admin"><button className="item">Admin</button></Link></div>
