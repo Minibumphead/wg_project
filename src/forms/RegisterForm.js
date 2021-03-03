@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { useState } from 'react'
+import Joi from 'joi'
 
 import './formstyles.css'
 
@@ -23,30 +24,45 @@ export default function RegisterForm({ history }) {
             setFormdata({...formData, confirm: event.target.value})
         }       
     }
+    
+    const validateForm = (formData) => {
 
-    const handleSubmit = async(event) => {
-            try {
-                event.preventDefault()
-                const {data} = await axios.post("http://localhost:5000/users", formData)
-                localStorage.setItem("user", JSON.stringify(data))
-                setFormdata({
-                    username: "",
-                    email: "",
-                    password: "",
-                    confirm: ""
-                     })
-                console.log('new user created')
-                history.push('/')
-                
-            } catch (error) {
-                console.log(error)
-                console.log('try not successful')
-            }
+        const schema = Joi.object({
+            username: Joi.string().alphanum().min(1).max(20),
+            email: Joi.any(),
+            password: Joi.string().min(3).max(10),
+            confirm: Joi.ref('password')
+        })
+        try {
+            const {error} = schema.validate({
+                username: formData.username,
+                email: formData.email,
+                password: formData.password,
+                confirm: formData.confirm,
+            })
+            if (error) throw error
+        } catch (error) {
+            alert(error.message)
+            return error
+        }
     }
+    const handleSubmit = async(event) => {
+                event.preventDefault()
+                const error = validateForm(formData)
+                try {
+                        if (error) throw error
+                        const {data} = await axios.post("http://localhost:5000/users", formData)
+                        localStorage.setItem("user", JSON.stringify(data))
+                        history.push('/')
+                    } catch(error){
+                        console.log(error.message)
+                    }
+                } 
+    
 
     return (
         <>
-
+            {/* <button onClick={() => console.log(validateForm(formData))} style={{background: "grey" , border: "2px solid orange"}}>Test validate</button> */}
            <div className="form-container-register">
             <form className="form-inner" onSubmit={handleSubmit}>
                     <h3 className="form-title">Sign up here</h3>
