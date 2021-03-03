@@ -26,7 +26,7 @@ export default function LoginForm({history}) {
         event.preventDefault()
         
             if (await login(formData)){
-                history.push('/')
+                history.push('/admin')
     }
 }
 
