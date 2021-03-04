@@ -62,7 +62,6 @@ export default function RegisterForm({ history }) {
 
     return (
         <>
-            {/* <button onClick={() => console.log(validateForm(formData))} style={{background: "grey" , border: "2px solid orange"}}>Test validate</button> */}
            <div className="form-container-register">
             <form className="form-inner" onSubmit={handleSubmit}>
                     <h3 className="form-title">Sign up here</h3>
