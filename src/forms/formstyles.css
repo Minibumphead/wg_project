@@ -29,8 +29,6 @@ input:focus{
     margin-right: auto;
     margin-left: auto;
     border: 5px solid black
-
-
 }
 
 .form-container-login{
@@ -87,4 +85,20 @@ input:focus{
     padding-right: 15px;
 
 
+}
+
+
+.form-container-todo {
+    margin-top: 75px;
+    background: blue;
+    display: flex;
+    justify-content: center;
+    padding-top: 30px;
+    padding-bottom: 45px;
+    border-radius: 10px;
+    width: 600px;
+    height: 600px;
+    margin-right: auto;
+    margin-left: auto;
+    border: 5px solid black
 }

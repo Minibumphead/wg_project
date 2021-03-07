@@ -1,5 +1,5 @@
-import {useState, useEffect } from 'react'
-import {fetchData } from './../services/index'
+import { useState, useEffect } from 'react'
+import { fetchUsers } from './../services/index'
 import UserDetailComponent from './../components/UserDetailComponent'
 
 export default function Admin({history}) {
@@ -10,7 +10,7 @@ export default function Admin({history}) {
     
     useEffect(() => 
         {async function getData(){   
-            const users = await fetchData()
+            const users = await fetchUsers()
             setAuthUser(authUser)
             setAllUsers(users)}
         getData()

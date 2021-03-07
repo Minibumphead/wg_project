@@ -27,7 +27,7 @@ function Header({history, ...props}) {
 
                 </ul>}
             </nav>
-            <button style={{border: "2px solid black", background: "#999"}} onClick={() => console.log(JSON.parse(localStorage.getItem('user')))}>check user</button>
+            {/* <button style={{border: "2px solid black", background: "#999"}} onClick={() => console.log(JSON.parse(localStorage.getItem('user')))}>check user</button> */}
         </>
     )
 }
