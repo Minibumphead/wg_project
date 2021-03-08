@@ -6,7 +6,9 @@ import TodoDetailComponent from './TodoDetailComponent'
 export default function UserDetailComponent({user, users, todos, setUsers, setTodos, authUser, history}) {
 
     const handleDelete = async(user) => {
-        if (authUser.id === user._id) {
+        console.log(user)
+        console.log(authUser)
+        if (authUser._id === user._id) {
             alert(`The user ${authUser.username} is logged in and can't be deleted `)
         } else {
             const remainingUsers = await deleteUser(user, authUser)
@@ -23,14 +25,14 @@ export default function UserDetailComponent({user, users, todos, setUsers, setTo
         <>
        
             <div className="user-container">
-                <div className="user-detail">Username: {user.username}</div>
+                <div className="user-detail">Username: {user.username} <button className="delete-button" onClick={() => handleDelete(user)}>Delete User</button></div>
                 <div className="user-detail">Email: {user.email}</div>
                 <div className="user-detail">Score: {user.score}</div>
                 <div className="todos-Container">
                    {userTodos.map(todo => <TodoDetailComponent key={todo._id} setTodos={setTodos} todo={todo} />
                    )}
                 </div>
-                <button onClick={() => handleDelete(user)}>Delete User</button>
+                
             </div>
  
         </>
