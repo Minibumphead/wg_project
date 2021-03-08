@@ -1,5 +1,5 @@
 import { deleteTodo } from "../services"
-import { useState } from 'react'
+
 
 export default function TodoDetailComponent({todo, setTodos}) {
 

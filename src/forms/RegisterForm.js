@@ -55,7 +55,7 @@ export default function RegisterForm({users, setUsers, history }) {
                         localStorage.setItem("user", JSON.stringify(response.data))
                         setUsers([...users, response.data ])
                         history.push('/')
-                        console.log(response.data)
+
                     } catch(error){
                         console.log(error.message)
                     }

@@ -1,5 +1,5 @@
 import './styles.css'
-import { deleteUser, deleteTodo } from './../services/index'
+import { deleteUser } from './../services/index'
 import TodoDetailComponent from './TodoDetailComponent'
 
 

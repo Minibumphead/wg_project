@@ -7,7 +7,7 @@ import CreateTodoForm from './../forms/CreateTodoForm'
 
 export default function Home({users, todos, setUsers, setTodos, history, ...rest}) {
     const [showTodoForm, setShowTodoForm] = useState(false)
-    console.log(users)
+
     
     return(
         <div className="home-container">

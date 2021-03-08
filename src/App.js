@@ -27,8 +27,6 @@ const App = () => {
     fetchData()
   },[])
 
-  console.log(users)
-
   return(
     <Router>
 

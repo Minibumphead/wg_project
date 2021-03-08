@@ -1,18 +1,15 @@
 import { useState, useEffect } from 'react'
-import { fetchTodos, fetchUsers } from './../services/index'
+
 import UserDetailComponent from './../components/UserDetailComponent'
 import './styles.css'
 
 export default function Admin({history, users, todos, setUsers, setTodos, ...props}) {
 
     const [authUser,setAuthUser] = useState(JSON.parse(localStorage.getItem("user")))
-    // const [allUsers, setAllUsers] = useState([])
-    // const [allTodos, setAllTodos] = useState([])
     
     useEffect(() => 
         {async function getData(){   
             setAuthUser(authUser)}
-
         getData()
         },[authUser])
 

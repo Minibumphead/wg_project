@@ -39,7 +39,6 @@ export default function CreateTodoForm({users, todos, setUsers, setTodos, histor
         event.preventDefault()
         const newTodo = await createTodo(formData)
         setTodos([...todos, newTodo])
-        console.log(todos)
         history.push('/admin')
     }
     
