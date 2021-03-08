@@ -4,8 +4,10 @@ import 'react-datepicker/dist/react-datepicker.css'
 
 import { createTodo } from './../services/index'
 
-export default function CreateTodoForm(props) {
-    const [users, setUsers] = useState(props.users)
+export default function CreateTodoForm({users, todos, setUsers, setTodos, history}) {
+    const [authUser] = useState(JSON.parse(localStorage.getItem("user")))
+    
+
     const [formData, setFormData] = useState({
         title: "Kueche",
         description: '',
@@ -13,16 +15,13 @@ export default function CreateTodoForm(props) {
         expiresOn: null,
         pointsAwarded: 0,
         timeSpent: 0,
-        username: users[0].username
+        username: authUser.username
     })
-
 
 
     const handleChange = (event) => {
 
         event.preventDefault()
-
-        console.log(event.target.value)
         if (event.target.name === "title"){
             setFormData({...formData, title: event.target.value})
         } else if (event.target.name === "description") {
@@ -38,9 +37,10 @@ export default function CreateTodoForm(props) {
 
     const handleSubmit = async(event) => {
         event.preventDefault()
-        console.log(formData)
-        const todo = await createTodo(formData)
-        console.log(todo)
+        const newTodo = await createTodo(formData)
+        setTodos([...todos, newTodo])
+        console.log(todos)
+        history.push('/admin')
     }
     
     const addDays = (days) => {
@@ -48,6 +48,7 @@ export default function CreateTodoForm(props) {
         date.setDate(date.getDate() + days)
         return date
     }
+
 
     return( 
             <>
@@ -104,7 +105,9 @@ export default function CreateTodoForm(props) {
                                 type="text" 
                                 name="username" 
                                 onChange={handleChange} 
+                                value={formData.username}
                                 placeholder="Zustaendige Person">
+                               
                                     {users.map(user => <option key={user._id} value={user.username}>{user.username}</option>)}
                             </select>
                             <button className="submit-button" type="submit">Add Todo </button>
@@ -113,7 +116,5 @@ export default function CreateTodoForm(props) {
             </div>
            
            </>
-           
-
     )
 }

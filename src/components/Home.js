@@ -1,23 +1,18 @@
-import { useState, useEffect } from 'react'
-import Todo from './Todo'
+import { useState } from 'react'
 import CreateTodoForm from './../forms/CreateTodoForm'
 
 
 
 
 
-export default function Home(props) {
-
+export default function Home({users, todos, setUsers, setTodos, history, ...rest}) {
     const [showTodoForm, setShowTodoForm] = useState(false)
-    const [user, setUser] = useState({})
-    useEffect(() => 
-        {
-        setUser(JSON.parse(localStorage.getItem("user")))},[]
-       )
+    console.log(users)
+    
     return(
         <div className="home-container">
             <button className="addTodoButton" onClick={() => setShowTodoForm(!showTodoForm)}>+ Add Todo</button>
-            {showTodoForm? <CreateTodoForm users={props.users}/> : null }
+            {showTodoForm? <CreateTodoForm users={users} todos={todos} setUsers={setUsers} setTodos={setTodos} history={history} /> : null }
         </div>
     )
 }

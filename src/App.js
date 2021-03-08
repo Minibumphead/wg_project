@@ -14,9 +14,9 @@ import { fetchTodos, fetchUsers } from './services'
 
 
 const App = () => {
-  const [date, startDate] = useState(new Date())
   const [users, setUsers] = useState([])
   const [todos, setTodos] = useState([])
+
   useEffect(() =>{
     async function fetchData(){
       const allUsers = await fetchUsers()
@@ -27,17 +27,17 @@ const App = () => {
     fetchData()
   },[])
 
-  
-  
+  console.log(users)
+
   return(
     <Router>
 
         <Header />
         <Switch>
-          <Route exact path="/" render={props => <Home {...props} todos={todos} users={users} />} /> 
+          <AuthRoute exact path="/" component={Home} todos={todos} users={users} setUsers={setUsers} setTodos={setTodos} /> 
           <Route exact path="/login" component={LoginForm}/>
-          <Route exact path="/register" component={RegisterForm} />
-          <AuthRoute exact path="/admin" component={Admin} />
+          <Route exact path="/register" render={props => <RegisterForm {...props} users={users} setUsers={setUsers} />} />
+          <AuthRoute exact path="/admin" users={users} todos={todos} setUsers={setUsers} setTodos={setTodos} component={Admin} />
         </Switch>
     </Router>
   )

@@ -6,7 +6,7 @@ import './formstyles.css'
 
 
 // prop history is passed when you use component = {} within <Route /> component
-export default function RegisterForm({ history }) {
+export default function RegisterForm({users, setUsers, history }) {
     const [formData, setFormdata] = useState({
         username: "",
         email: "",
@@ -51,9 +51,11 @@ export default function RegisterForm({ history }) {
                 const error = validateForm(formData)
                 try {
                         if (error) throw error
-                        const {data} = await axios.post("http://localhost:5000/users", formData)
-                        localStorage.setItem("user", JSON.stringify(data))
+                        const response = await axios.post("http://localhost:5000/users", formData)
+                        localStorage.setItem("user", JSON.stringify(response.data))
+                        setUsers([...users, response.data ])
                         history.push('/')
+                        console.log(response.data)
                     } catch(error){
                         console.log(error.message)
                     }

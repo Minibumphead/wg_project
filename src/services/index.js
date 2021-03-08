@@ -11,6 +11,12 @@ export const fetchUsers = async() => {
 }
 
 
+export const deleteUser = async (user) => {
+    const response = await axios.delete(`http://localhost:5000/users/${user._id}`)
+    return response.data
+}
+
+
 export const login = async(formData) => {
 
     try {
@@ -27,10 +33,7 @@ export const logout = async() => {
 await localStorage.removeItem("user")
 }
 
-export const deleteUser = async (user) => {
-    const response = await axios.delete(`http://localhost:5000/users/${user._id}`)
-    return response.data
-}
+
 
 
 // Todos Servides 
@@ -42,10 +45,14 @@ export const fetchTodos = async() => {
 
 export const createTodo = async(formData) => {
     const response = await axios.post("http://localhost:5000/todos", formData)
-
-        return response.data
+    return response.data
     }
 
+
+export const deleteTodo = async(todoId) => {
+    const response = await axios.delete(`http://localhost:5000/todos/${todoId}`)
+    return response.data
+}
 
 
 

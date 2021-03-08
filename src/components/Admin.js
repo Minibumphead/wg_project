@@ -1,25 +1,29 @@
 import { useState, useEffect } from 'react'
-import { fetchUsers } from './../services/index'
+import { fetchTodos, fetchUsers } from './../services/index'
 import UserDetailComponent from './../components/UserDetailComponent'
+import './styles.css'
 
-export default function Admin({history}) {
+export default function Admin({history, users, todos, setUsers, setTodos, ...props}) {
 
     const [authUser,setAuthUser] = useState(JSON.parse(localStorage.getItem("user")))
-    const [allUsers, setAllUsers] = useState([])
-    
+    // const [allUsers, setAllUsers] = useState([])
+    // const [allTodos, setAllTodos] = useState([])
     
     useEffect(() => 
         {async function getData(){   
-            const users = await fetchUsers()
-            setAuthUser(authUser)
-            setAllUsers(users)}
+            setAuthUser(authUser)}
+
         getData()
         },[authUser])
+
 
     return (
         <div>
             <h1>Admin Site</h1>
-            {allUsers.map(user => <UserDetailComponent key={user._id} authUser={authUser} user = {user} setAllUsers={setAllUsers} allUsers={allUsers} history={history}/>)}
+            <div className="base-container">
+             {users.map(user => <UserDetailComponent key={user._id} authUser={authUser} user = {user} setUsers={setUsers} setTodos={setTodos} users={users} todos={todos} history={history}/>)}
+            </div>
+          
         </div>
         )
 }
