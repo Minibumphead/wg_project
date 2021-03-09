@@ -3,21 +3,12 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import CloseIcon from '@material-ui/icons/Close';
 
-import { createTodo } from './../services/index'
+import { saveTodo } from './../services/index'
 
-export default function CreateTodoForm({users, todos, setUsers, setTodos, showTodoForm, setShowTodoForm, history}) {
+export default function UpdateTodoForm({oldFormData, users, todos, setUsers, setTodos, showTodoUpdateForm, setShowTodoUpdateForm, history}) {
+    
     const [authUser] = useState(JSON.parse(localStorage.getItem("user")))
-
-
-    const [formData, setFormData] = useState({
-        title: "Kueche",
-        description: '',
-        assignedOn: null,
-        expiresOn: null,
-        pointsAwarded: 0,
-        timeSpent: 0,
-        username: authUser.username
-    })
+    const [formData, setFormData] = useState(oldFormData)
 
 
     const handleChange = (event) => {
@@ -38,9 +29,11 @@ export default function CreateTodoForm({users, todos, setUsers, setTodos, showTo
 
     const handleSubmit = async(event) => {
         event.preventDefault()
-        const newTodo = await createTodo(formData)
-        setTodos([...todos, newTodo])
-        setShowTodoForm(!showTodoForm)
+        console.log(formData)
+        const updatedTodo = await saveTodo(formData)
+        const updatedTodoList = todos.filter(todo => todo._id !== updatedTodo._id)
+        setTodos([...updatedTodoList, updatedTodo])
+        setShowTodoUpdateForm(!showTodoUpdateForm)
     }
 
     const autoUpdateExpire = (date) => {
@@ -54,12 +47,12 @@ export default function CreateTodoForm({users, todos, setUsers, setTodos, showTo
 
 
     return( 
-            <>{showTodoForm ?
-                <div>            
-            <div className="form-overlay-todo" onClick={() => {setShowTodoForm(!showTodoForm)}}></div>
+            <>{showTodoUpdateForm ?
+            <div>            
+            <div className="form-overlay-todo" onClick={() => {setShowTodoUpdateForm(!showTodoUpdateForm)}}></div>
 
             <form className="form-inner-todo" onSubmit={handleSubmit}>
-                            <button className="closeTodo" onClick={()=> setShowTodoForm(!showTodoForm)}><CloseIcon /></button>
+                            <button className="closeTodo" onClick={()=> setShowTodoUpdateForm(!showTodoUpdateForm)}><CloseIcon /></button>
                             <h3 className="form-title">Create a Todo</h3>
                             <select className="todo-form-input" name="title" type="text" defaultValue={'Kueche'} onChange={handleChange} placeholder="Todo title">
                                 <option value="Kueche"  >Kueche</option>
@@ -128,7 +121,7 @@ export default function CreateTodoForm({users, todos, setUsers, setTodos, showTo
                                
                                     {users.map(user => <option key={user._id} value={user.username}>{user.username}</option>)}
                             </select>
-                            <button className="submit-button-todo" type="submit">Add Todo </button>
+                            <button className="submit-button-todo" type="submit">Update Todo </button>
                     </form></div>: null} 
            
            </>

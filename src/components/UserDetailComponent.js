@@ -1,14 +1,12 @@
 import './styles.css'
-import { deleteUser } from './../services/index'
+import { useEffect, useState } from 'react'
+import { deleteUser, getUserTodos } from './../services/index'
 import TodoDetailComponent from './TodoDetailComponent'
 import AddTodo from './AddTodo'
 
 
 export default function UserDetailComponent({user, users, todos, setUsers, setTodos, authUser, history}) {
-
     const handleDelete = async(user) => {
-        console.log(user)
-        console.log(authUser)
         if (authUser._id === user._id) {
             alert(`The user ${authUser.username} is logged in and can't be deleted `)
         } else {
@@ -18,16 +16,18 @@ export default function UserDetailComponent({user, users, todos, setUsers, setTo
       
     }
 
+    // create an endpoint that will get user Todos specifically
+
     const userTodos = todos.filter(todo => todo.user === user._id)
- 
-
-
     return (
         <>
-       
+            
             <div className="user-container">
                 <div className="user-detail">Username: {user.username} 
-                <button className="delete-button" onClick={() => handleDelete(user)}>Delete User</button>
+                <button className="delete-button" onClick={() => {
+                     handleDelete(user)
+
+                }}>Delete User</button>
                 
             </div>
                 <div className="user-detail">Email: {user.email}</div>
