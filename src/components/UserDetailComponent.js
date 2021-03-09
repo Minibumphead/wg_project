@@ -1,6 +1,7 @@
 import './styles.css'
 import { deleteUser } from './../services/index'
 import TodoDetailComponent from './TodoDetailComponent'
+import AddTodo from './AddTodo'
 
 
 export default function UserDetailComponent({user, users, todos, setUsers, setTodos, authUser, history}) {
@@ -25,12 +26,16 @@ export default function UserDetailComponent({user, users, todos, setUsers, setTo
         <>
        
             <div className="user-container">
-                <div className="user-detail">Username: {user.username} <button className="delete-button" onClick={() => handleDelete(user)}>Delete User</button></div>
+                <div className="user-detail">Username: {user.username} 
+                <button className="delete-button" onClick={() => handleDelete(user)}>Delete User</button>
+                
+            </div>
                 <div className="user-detail">Email: {user.email}</div>
                 <div className="user-detail">Score: {user.score}</div>
                 <div className="todos-Container">
-                   {userTodos.map(todo => <TodoDetailComponent key={todo._id} setTodos={setTodos} todo={todo} />
+                   {userTodos.map(todo => <TodoDetailComponent key={todo._id} setTodos={setTodos} todo={todo} users={users} todos={todos} setUsers={setUsers}/>
                    )}
+                   <AddTodo users={users} todos={todos} setUsers={setUsers} setTodos={setTodos} />
                 </div>
                 
             </div>

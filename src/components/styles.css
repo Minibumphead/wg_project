@@ -32,11 +32,7 @@
 
 }
 
-.home-container{
-    border: 2px solid green;
-    /* top right bottom left */
-    padding: 50px 0 25px 25px;
-}
+
 .addTodoButton {
     border: 2px solid rgb(63, 0, 63);
     border-radius: 15px;
@@ -45,6 +41,13 @@
     font-size: 15px;
     font-weight: 700;
     cursor: pointer
+}
+
+.addTodoButton:hover {
+    background: white;
+    opacity: 0.8;
+    color: black;
+    border: transparent
 }
 
 .todos-Container{
@@ -71,6 +74,11 @@
    
 }
 
+.user-container .todo-container .todo-button:hover {
+    background-color: white;
+    font-weight: 600;
+}
+
 .todo-title {
     flex:3
 }
@@ -90,3 +98,18 @@
     padding: 5px;
     margin-bottom: 5px;
 }
+
+.isCompleted, .isNotCompleted {
+    width: 125px;
+    height: 25px;
+    background-color: green;
+    margin: 5px; 
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.isNotCompleted{
+    background-color: orange;
+}
+

@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 import Header from './components/Header'
 import RegisterForm from './forms/RegisterForm'
 import LoginForm from './forms/LoginForm'
-import Home from './components/Home'
 import Admin from './components/Admin'
 import AuthRoute from './components/Auth/AuthRoute'
 
@@ -32,10 +31,10 @@ const App = () => {
 
         <Header />
         <Switch>
-          <AuthRoute exact path="/" component={Home} todos={todos} users={users} setUsers={setUsers} setTodos={setTodos} /> 
+          
           <Route exact path="/login" component={LoginForm}/>
           <Route exact path="/register" render={props => <RegisterForm {...props} users={users} setUsers={setUsers} />} />
-          <AuthRoute exact path="/admin" users={users} todos={todos} setUsers={setUsers} setTodos={setTodos} component={Admin} />
+          <AuthRoute path="/admin" users={users} todos={todos} setUsers={setUsers} setTodos={setTodos} component={Admin} />
         </Switch>
     </Router>
   )

@@ -75,6 +75,23 @@ input:focus{
 
 }
 
+.submit-button-todo{
+    padding: 10px;
+    background: white;
+    max-width: 150px;
+    align-self: center;
+    border-radius: 3px;
+
+}
+
+.submit-button-todo:hover{
+    border: transparent;
+    background: black;
+    color: white;
+    cursor: pointer;
+    transition: 400ms
+}
+
 .submit-button:hover{
     background: black;
     color:white;
@@ -88,17 +105,58 @@ input:focus{
 }
 
 
-.form-container-todo {
-    margin-top: 75px;
-    background: blue;
-    display: flex;
-    justify-content: center;
+.form-overlay-todo {
+    position: absolute;
     padding-top: 30px;
-    padding-bottom: 45px;
-    border-radius: 10px;
-    width: 600px;
-    height: 600px;
     margin-right: auto;
     margin-left: auto;
-    border: 5px solid black
+    width: 100vw;
+    height: calc(100vh);
+    box-sizing: border-box;
+    top: 0; 
+    left: 0;
+    z-index: 0;
+    background-color: rgba(0,0,0, 0.94);
+    z-index: 0;
+}
+
+.form-inner-todo {
+    position: absolute;
+    top: 0;
+    left:0;
+    padding: 25px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    width: 20vw;
+    margin-left: 40vw;
+    margin-top: 150px;
+    display: flex;
+    flex-direction: column;
+    opacity: 1;
+    z-index: 0;
+    background-color: blue;
+    border: 3px solid white;
+}
+
+
+.form-inner-todo .todo-form-input {
+    position: relative;
+
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+.closeTodo {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+   color: white;
+   cursor: pointer;
+   z-index: 5;
+}
+
+.closeTodo:hover{
+    color: black;
 }
