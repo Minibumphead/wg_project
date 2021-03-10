@@ -7,7 +7,6 @@ import UpdateTodoForm from "../forms/UpdateTodoForm"
 export default function TodoDetailComponent({user, todo, todos, setTodos, users, setUsers}) {
     const [showDetails, setShowDetails] = useState(false)
     const [showTodoUpdateForm, setShowTodoUpdateForm] = useState(false)
-    const [isCompleted, setIsCompleted] = useState(todo.completed)
     const isMountedValue = useRef(1)
 
     

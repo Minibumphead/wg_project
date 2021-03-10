@@ -1,6 +1,6 @@
 import './styles.css'
-import { useEffect, useState } from 'react'
-import { deleteUser, getUserTodos } from './../services/index'
+
+import { deleteUser } from './../services/index'
 import TodoDetailComponent from './TodoDetailComponent'
 import AddTodo from './AddTodo'
 
