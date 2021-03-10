@@ -2,21 +2,26 @@ import { useState } from 'react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import CloseIcon from '@material-ui/icons/Close';
+import moment from 'moment'
 
 import { createTodo } from './../services/index'
 
-export default function CreateTodoForm({users, todos, setUsers, setTodos, showTodoForm, setShowTodoForm, history}) {
-    const [authUser] = useState(JSON.parse(localStorage.getItem("user")))
+export default function CreateTodoForm({user, users, todos, setUsers, setTodos, showTodoForm, setShowTodoForm, history}) {
 
+    const today = new Date()
+    const myDate = new Date()
+    const nextWeek = new Date(myDate.setDate(myDate.getDate() + 7))
+
+    console.log(nextWeek)
 
     const [formData, setFormData] = useState({
         title: "Kueche",
         description: '',
-        assignedOn: null,
-        expiresOn: null,
+        assignedOn: today,
+        expiresOn: nextWeek,
         pointsAwarded: 0,
         timeSpent: 0,
-        username: authUser.username
+        username: user.username
     })
 
 
@@ -43,13 +48,6 @@ export default function CreateTodoForm({users, todos, setUsers, setTodos, showTo
         setShowTodoForm(!showTodoForm)
     }
 
-    const autoUpdateExpire = (date) => {
-        const expireDate = new Date()
-        expireDate.setDate(date.getDate() + 7)
-        if (formData.expiresOn === null){
-            setFormData({...formData, expiresOn: expireDate})
-        }
-    }
 
 
 
@@ -81,22 +79,22 @@ export default function CreateTodoForm({users, todos, setUsers, setTodos, showTo
                             className="todo-form-input" 
                             minDate={new Date()} 
                             dateFormat='dd/MM/yyyy'
-                            selected={formData.assignedOn} 
+                            selected={formData.assignedOn ? formData.assignedOn : new Date()} 
                             onChange={(date) => {
-                                setFormData({...formData, assignedOn: date})
+                                setFormData({...formData, assignedOn: new Date(date)})
 
-                            }} 
-                            onCalendarClose= {() => autoUpdateExpire(formData.assignedOn)} />
+                            }} />
                         
                   
-                            <DatePicker 
-                            placeholderText="Erledigen bis"
-                            className="todo-form-input"
-                            selected={formData.expiresOn} 
-                            minDate={formData.assignedOn} 
+                            <DatePicker
+                            placeholderText="Erledigen bis:"
+                            className="todo-form-input" 
+                            minDate={new Date()} 
                             dateFormat='dd/MM/yyyy'
-                            onChange={(date) => setFormData({...formData, expiresOn: date})}
-                            shouldCloseOnSelect={true} />
+                            selected={formData.expiresOn ? formData.expiresOn : new Date()} 
+                            onChange={(date) => {
+                                setFormData({...formData, expiresOn: new Date(date)})
+                            }} />
         
                             <input
                                 className="todo-form-input" 

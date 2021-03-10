@@ -47,27 +47,22 @@ export const fetchTodos = async() => {
 }
 
 
-export const saveTodo = async(updatedTodo) => {
-    console.log(updatedTodo._id)
-    const response = await axios.put(`http://localhost:5000/todos/${updatedTodo._id}`, updatedTodo)
-    return response.data
-}
-
 export const createTodo = async(formData) => {
     const response = await axios.post("http://localhost:5000/todos", formData)
     return response.data
     }
+
+export const updateTodo = async(updatedTodo, todoId) => {
+
+    const response = await axios.put(`http://localhost:5000/todos/${todoId}`, updatedTodo)
+    return response.data
+}
 
 
 export const deleteTodo = async(todoId) => {
     const response = await axios.delete(`http://localhost:5000/todos/${todoId}`)
     return response.data
 }
-
-// export const updateTodo = async(todoId) => {
-//     const response = await axios.put(`http://localhost:5000/todos/${updatedTodo._id}`, updatedTodo)
-//     return response.data
-// }
 
 
 

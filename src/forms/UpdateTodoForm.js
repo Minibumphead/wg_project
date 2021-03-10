@@ -3,12 +3,19 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import CloseIcon from '@material-ui/icons/Close';
 
-import { saveTodo } from './../services/index'
+import { updateTodo } from './../services/index'
 
-export default function UpdateTodoForm({oldFormData, users, todos, setUsers, setTodos, showTodoUpdateForm, setShowTodoUpdateForm, history}) {
-    
-    const [authUser] = useState(JSON.parse(localStorage.getItem("user")))
-    const [formData, setFormData] = useState(oldFormData)
+export default function CreateTodoForm({user, todo, users, todos, setUsers, setTodos, showTodoUpdateForm, setShowTodoUpdateForm, history}) {
+
+    const [formData, setFormData] = useState({
+        title: todo.title,
+        description: todo.description,
+        assignedOn: new Date(todo.assignedOn),
+        expiresOn: new Date(todo.expiresOn),
+        pointsAwarded: todo.pointsAwarded,
+        timeSpent: todo.timeSpent,
+        username: user.username
+    })
 
 
     const handleChange = (event) => {
@@ -29,26 +36,21 @@ export default function UpdateTodoForm({oldFormData, users, todos, setUsers, set
 
     const handleSubmit = async(event) => {
         event.preventDefault()
-        console.log(formData)
-        const updatedTodo = await saveTodo(formData)
-        const updatedTodoList = todos.filter(todo => todo._id !== updatedTodo._id)
-        setTodos([...updatedTodoList, updatedTodo])
+        const updatedTodo = await updateTodo(formData, todo._id)
+        console.log(updatedTodo)
+
+        const unalteredTodos = todos.filter(todo => updatedTodo._id !== todo._id)
+        setTodos([...unalteredTodos, updatedTodo])
+
         setShowTodoUpdateForm(!showTodoUpdateForm)
     }
 
-    const autoUpdateExpire = (date) => {
-        const expireDate = new Date()
-        expireDate.setDate(date.getDate() + 7)
-        if (formData.expiresOn === null){
-            setFormData({...formData, expiresOn: expireDate})
-        }
-    }
 
 
 
     return( 
             <>{showTodoUpdateForm ?
-            <div>            
+                <div>            
             <div className="form-overlay-todo" onClick={() => {setShowTodoUpdateForm(!showTodoUpdateForm)}}></div>
 
             <form className="form-inner-todo" onSubmit={handleSubmit}>
@@ -74,12 +76,11 @@ export default function UpdateTodoForm({oldFormData, users, todos, setUsers, set
                             className="todo-form-input" 
                             minDate={new Date()} 
                             dateFormat='dd/MM/yyyy'
-                            selected={formData.assignedOn} 
+                            selected={formData.assignedOn ? formData.assignedOn : new Date()} 
                             onChange={(date) => {
-                                setFormData({...formData, assignedOn: date})
+                                setFormData({...formData, assignedOn: new Date(date)})
 
-                            }} 
-                            onCalendarClose= {() => autoUpdateExpire(formData.assignedOn)} />
+                            }} />
                         
                   
                             <DatePicker 
@@ -88,8 +89,7 @@ export default function UpdateTodoForm({oldFormData, users, todos, setUsers, set
                             selected={formData.expiresOn} 
                             minDate={formData.assignedOn} 
                             dateFormat='dd/MM/yyyy'
-                            onChange={(date) => setFormData({...formData, expiresOn: date})}
-                            shouldCloseOnSelect={true} />
+                            onChange={(date) => setFormData({...formData, expiresOn: new Date(date)})} />
         
                             <input
                                 className="todo-form-input" 

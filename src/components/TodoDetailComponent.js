@@ -1,15 +1,28 @@
-import { deleteTodo, saveTodo } from "../services"
-import { useState } from 'react'
+import { deleteTodo, updateTodo } from "../services"
+import { useState, useEffect, useRef } from 'react'
 import UpdateTodoForm from "../forms/UpdateTodoForm"
 
 
 
-export default function TodoDetailComponent({todo, todos, setTodos, users, setUsers}) {
+export default function TodoDetailComponent({user, todo, todos, setTodos, users, setUsers}) {
     const [showDetails, setShowDetails] = useState(false)
     const [showTodoUpdateForm, setShowTodoUpdateForm] = useState(false)
     const [isCompleted, setIsCompleted] = useState(todo.completed)
-    const [oldFormData] = useState(todo)
+    const isMountedValue = useRef(1)
 
+    
+
+    /// understand this cleanup function
+    useEffect(() => {
+        isMountedValue.current = 1
+        return () => {isMountedValue.current = 0}
+    })
+
+    const updateState = (callback) => {
+        if (isMountedValue.current){
+            callback()
+        }
+    }
 
     const handleDelete = async(todoId, userId) => {
         const remainingTodos = await deleteTodo(todoId)
@@ -18,6 +31,7 @@ export default function TodoDetailComponent({todo, todos, setTodos, users, setUs
 
     const cleanDate = (date) => {
         if (date) {
+      
             const segments = date.split('-')
             // const year = segments[2]
             const readableDate = `${segments[2].slice(0,2)}.${segments[1]}`
@@ -30,8 +44,15 @@ export default function TodoDetailComponent({todo, todos, setTodos, users, setUs
 
   
 
-    const handleEdit = (todo) => {
+    const handleEdit = () => {
         setShowTodoUpdateForm(!showTodoUpdateForm)
+    }
+
+    const toggleComplete = async() => {
+
+        const toggledIdCompleted = await updateTodo(todo, todo._id)
+        const otherTodos = todos.filter(todo => todo._id !== toggledIdCompleted._id)
+        setTodos([...otherTodos, toggledIdCompleted])
 
     }
 
@@ -48,21 +69,18 @@ export default function TodoDetailComponent({todo, todos, setTodos, users, setUs
                 <div>Zeitraum: {cleanDate(todo.assignedOn)} - {cleanDate(todo.expiresOn)}</div>
                 <div>Punkte: {todo.pointsAwarded}</div>
                 <div>geschaetzte Zeit: {todo.timeSpent}min</div>    
-                <button onClick={async() => {
-                    setIsCompleted(!isCompleted)
-                    const updatedTodo = {
-                        ...todo,
-                        completed: !isCompleted
-                    }
-       
-                    const toggledIsCompleted = await saveTodo(updatedTodo)
-                    const otherTodos = todos.filter(todo => todo._id !== updatedTodo._id)
-                    setTodos([...otherTodos, toggledIsCompleted])
-     
-                }}className={todo.completed ? 'isCompleted' : 'isNotCompleted'}>{todo.completed? 'Erledigt' : 'Nicht erledigt'}</button>  
-                <button className="todo-button" onClick={() => handleEdit(todo)}> Bearbeiten</button> 
-                <UpdateTodoForm oldFormData={oldFormData} todo={todo} todos={todos} users={users} setUsers={setUsers} setTodos={setTodos} showTodoUpdateForm={showTodoUpdateForm} 
-                                setShowTodoUpdateForm={setShowTodoUpdateForm} />
+                <div>Zustaendige Person: {todo.user}</div>
+                <button onClick={() => toggleComplete()}className={todo.completed ? 'isCompleted' : 'isNotCompleted'}>{todo.completed? 'Erledigt' : 'Nicht erledigt'}</button>  
+                <button className="todo-button" onClick={() => updateState(() => handleEdit(todo))}> Bearbeiten</button> 
+                <UpdateTodoForm 
+                    user={user} 
+                    todo={todo} 
+                    todos={todos} 
+                    users={users} 
+                    setUsers={setUsers} 
+                    setTodos={setTodos} 
+                    showTodoUpdateForm={showTodoUpdateForm} 
+                    setShowTodoUpdateForm={setShowTodoUpdateForm} />
             </div> : null}
            
         </div>

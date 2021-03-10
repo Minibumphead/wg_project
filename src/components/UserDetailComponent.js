@@ -6,8 +6,10 @@ import AddTodo from './AddTodo'
 
 
 export default function UserDetailComponent({user, users, todos, setUsers, setTodos, authUser, history}) {
+
     const handleDelete = async(user) => {
         if (authUser._id === user._id) {
+
             alert(`The user ${authUser.username} is logged in and can't be deleted `)
         } else {
             const remainingUsers = await deleteUser(user, authUser)
@@ -33,9 +35,9 @@ export default function UserDetailComponent({user, users, todos, setUsers, setTo
                 <div className="user-detail">Email: {user.email}</div>
                 <div className="user-detail">Score: {user.score}</div>
                 <div className="todos-Container">
-                   {userTodos.map(todo => <TodoDetailComponent key={todo._id} setTodos={setTodos} todo={todo} users={users} todos={todos} setUsers={setUsers}/>
+                   {userTodos.map(todo => <TodoDetailComponent key={todo._id} user={user} setTodos={setTodos} todo={todo} users={users} todos={todos} setUsers={setUsers}/>
                    )}
-                   <AddTodo users={users} todos={todos} setUsers={setUsers} setTodos={setTodos} />
+                   <AddTodo user={user} users={users} todos={todos} setUsers={setUsers} setTodos={setTodos} />
                 </div>
                 
             </div>
