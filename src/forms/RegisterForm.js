@@ -1,6 +1,7 @@
-import axios from 'axios'
+
 import { useState } from 'react'
 import Joi from 'joi'
+import { registerUser } from './../services/index'
 
 import './formstyles.css'
 
@@ -51,9 +52,9 @@ export default function RegisterForm({users, setUsers, history }) {
                 const error = validateForm(formData)
                 try {
                         if (error) throw error
-                        const response = await axios.post("http://localhost:5000/users", formData)
-                        localStorage.setItem("user", JSON.stringify(response.data))
-                        setUsers([...users, response.data ])
+                        const data = await registerUser(formData)
+                        localStorage.setItem("user", JSON.stringify(data))
+                        setUsers([...users, data ])
                         history.push('/')
 
                     } catch(error){

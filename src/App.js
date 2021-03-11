@@ -5,6 +5,7 @@ import Header from './components/Header'
 import RegisterForm from './forms/RegisterForm'
 import LoginForm from './forms/LoginForm'
 import Admin from './components/Admin'
+import Home from './components/Home'
 import AuthRoute from './components/Auth/AuthRoute'
 
 
@@ -13,6 +14,7 @@ import { fetchTodos, fetchUsers } from './services'
 
 
 const App = () => {
+  
   const [users, setUsers] = useState([])
   const [todos, setTodos] = useState([])
 
@@ -30,6 +32,7 @@ const App = () => {
     <Router>
         <Header />
         <Switch>
+        <Route exact path="/" component={Home}/>
           <Route exact path="/login" component={LoginForm}/>
           <Route exact path="/register" render={props => <RegisterForm {...props} users={users} setUsers={setUsers} />} />
           <AuthRoute path="/admin" users={users} todos={todos} setUsers={setUsers} setTodos={setTodos} component={Admin} />

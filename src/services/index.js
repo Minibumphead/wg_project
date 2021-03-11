@@ -1,8 +1,9 @@
 import axios from 'axios'
 
+
 export const fetchUsers = async() => {
     try{
-        const response = await axios.get("http://localhost:5000/users")
+        const response = await axios.get(`${process.env.REACT_APP_API}/users`)
         return response.data
     } catch(error) {
         console.log('fetchUsers failed')
@@ -12,15 +13,19 @@ export const fetchUsers = async() => {
 
 
 export const deleteUser = async (user) => {
-    const response = await axios.delete(`http://localhost:5000/users/${user._id}`)
+    const response = await axios.delete(`${process.env.REACT_APP_API}/users/${user._id}`)
     return response.data
 }
 
+export const registerUser = async(formData) => {
+    const response = await axios.post(`${process.env.REACT_APP_API}/users`, formData)
+    return response.data
+}
 
 export const login = async(formData) => {
 
     try {
-        const response = await axios.post('http://localhost:5000/users/login', formData)
+        const response = await axios.post(`${process.env.REACT_APP_API}/users/login`, formData)
         localStorage.setItem("user", JSON.stringify(response.data))
         return response.data
     } catch(error) {
@@ -42,25 +47,25 @@ await localStorage.removeItem("user")
 
 
 export const fetchTodos = async() => {
-    const response = await axios.get("http://localhost:5000/todos")
+    const response = await axios.get(`${process.env.REACT_APP_API}/todos`)
     return response.data
 }
 
 
 export const createTodo = async(formData) => {
-    const response = await axios.post("http://localhost:5000/todos", formData)
+    const response = await axios.post(`${process.env.REACT_APP_API}/todos`, formData)
     return response.data
     }
 
 export const updateTodo = async(updatedTodo, todoId) => {
 
-    const response = await axios.put(`http://localhost:5000/todos/${todoId}`, updatedTodo)
+    const response = await axios.put(`${process.env.REACT_APP_API}/todos/${todoId}`, updatedTodo)
     return response.data
 }
 
 
 export const deleteTodo = async(todoId) => {
-    const response = await axios.delete(`http://localhost:5000/todos/${todoId}`)
+    const response = await axios.delete(`${process.env.REACT_APP_API}/todos/${todoId}`)
     return response.data
 }
 
