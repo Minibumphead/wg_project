@@ -14,7 +14,8 @@ export default function CreateTodoForm({user, todo, users, todos, setUsers, setT
         expiresOn: new Date(todo.expiresOn),
         pointsAwarded: todo.pointsAwarded,
         timeSpent: todo.timeSpent,
-        username: user.username
+        username: user.username,
+        completed: todo.completed
     })
 
 

@@ -32,7 +32,7 @@ const App = () => {
     <Router>
         <Header />
         <Switch>
-        <AuthRoute exact path="/" component={Home} users={users}/>
+        <AuthRoute exact path="/" component={Home} todos={todos} users={users} setTodos={setTodos} setUsers={setUsers}/>
           <Route exact path="/login" component={LoginForm}/>
           <Route exact path="/register" render={props => <RegisterForm {...props} users={users} setUsers={setUsers} />} />
           <AuthRoute path="/admin" users={users} todos={todos} setUsers={setUsers} setTodos={setTodos} component={Admin} />

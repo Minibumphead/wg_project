@@ -50,13 +50,21 @@ export default function TodoDetailComponent({user, todo, todos, setTodos, users,
     const toggleComplete = async() => {
 
         const toggledIdCompleted = await updateTodo(todo, todo._id)
-        if (toggledIdCompleted === true){
-            const updatedUser = await updateUser(user._id, {oldScore: user.score, points: todo.pointsAwarded})
+        if (toggledIdCompleted.completed === true){
+            const newScore = user.score + todo.pointsAwarded
+            
+            const updatedUser = await updateUser(user._id, {newScore: newScore})
+            const otherUsers = users.filter(user => user._id !== updatedUser._id)
+            setUsers([...otherUsers, updatedUser])
+        } else {
+            console.log("completed is false asshole")
         }
        
 
         const otherTodos = todos.filter(todo => todo._id !== toggledIdCompleted._id)
+      
         setTodos([...otherTodos, toggledIdCompleted])
+        
 
     }
 
