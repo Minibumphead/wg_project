@@ -22,6 +22,11 @@ export const registerUser = async(formData) => {
     return response.data
 }
 
+export const updateUser = async(userId, data) => {
+    const response = await axios.put(`${process.env.REACT_APP_API}/users/${userId}`, data)
+    return response.data
+}
+
 export const login = async(formData) => {
 
     try {

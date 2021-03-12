@@ -1,4 +1,4 @@
-import { deleteTodo, updateTodo } from "../services"
+import { deleteTodo, updateTodo, updateUser } from "../services"
 import { useState, useEffect, useRef } from 'react'
 import UpdateTodoForm from "../forms/UpdateTodoForm"
 
@@ -50,6 +50,11 @@ export default function TodoDetailComponent({user, todo, todos, setTodos, users,
     const toggleComplete = async() => {
 
         const toggledIdCompleted = await updateTodo(todo, todo._id)
+        if (toggledIdCompleted === true){
+            const updatedUser = await updateUser(user._id, {oldScore: user.score, points: todo.pointsAwarded})
+        }
+       
+
         const otherTodos = todos.filter(todo => todo._id !== toggledIdCompleted._id)
         setTodos([...otherTodos, toggledIdCompleted])
 

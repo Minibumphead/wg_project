@@ -1,11 +1,11 @@
-export default function Home() {
+export default function Home({users}) {
 
     return (
         <>
-            <h1 style={{padding: "50px"}}>Homepage</h1>
+            {users.map(user => <div>
 
-
-
+                <div>{user.username} hat {user.score} Punkte gesammelt</div>
+            </div>)}
 
         </>
 
