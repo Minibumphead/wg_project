@@ -4,7 +4,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import DoneIcon from '@material-ui/icons/Done';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { deleteTodo, updateTodo, updateUser } from '../services';
+import { deleteTodo, updateTodo } from '../services';
 import { useEffect, useRef } from 'react';
 
 const useStyles = makeStyles((theme) => ({
@@ -63,28 +63,17 @@ export default function TodoDetailComponent({
     return;
   };
 
-  const updateTime = async () => {
-    console.log(todo);
-    console.log({ ...todo, newtime: updatedTime });
-    const { updatedTodos } = await updateTodo(
-      { ...todo, newtime: updatedTime },
-      todo._id
-    );
-    setTodos(updatedTodos);
-    setEditTime(false);
+  const toggleComplete = async (todo) => {
+    const newTodo = { ...todo, completed: true, completedOn: new Date() };
+    const response = await updateTodo(newTodo, todo._id);
+    setTodos(response);
   };
-  const toggleComplete = async () => {
-    const { updatedTodos, updatedTodo } = await updateTodo(todo, todo._id);
 
-    if (updatedTodo.completed === true) {
-      var newScore = user.score + todo.timeSpent;
-      console.log(newScore);
-      const updatedUsers = await updateUser(user._id, { newScore: newScore });
-      setUsers([...updatedUsers]);
-    } else {
-      console.log('completed is false asshole');
-    }
-    setTodos([...updatedTodos]);
+  const updateTime = async (todo) => {
+    const newTodo = { ...todo, timeSpent: updatedTime };
+    const response = await updateTodo(newTodo, todo._id);
+    setTodos(response);
+    setEditTime(false);
   };
 
   return (
@@ -106,14 +95,16 @@ export default function TodoDetailComponent({
               type="number"
               onChange={(e) => setUpdatedTime(e.target.value)}
             ></input>{' '}
-            <button onClick={updateTime}>korrigieren</button>
+            <button onClick={() => updateTime(todo, todo._id)}>
+              korrigieren
+            </button>
           </div>
         ) : null}
 
         <div className={classes.buttonbox}>
           {!todo.completed ? (
             <Button
-              onClick={() => toggleComplete()}
+              onClick={() => toggleComplete(todo, todo._id)}
               style={{
                 border: '2px solid green',
                 color: 'green',

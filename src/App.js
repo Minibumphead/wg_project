@@ -9,7 +9,7 @@ import Archive from './pages/Archive';
 import AuthRoute from './components/Auth/AuthRoute';
 
 import './App.css';
-import { fetchTodos, fetchUsers } from './services';
+import { fetchTodos, fetchUsers } from './services/index';
 
 const App = () => {
   const [showTodoForm, setShowTodoForm] = useState(false);
