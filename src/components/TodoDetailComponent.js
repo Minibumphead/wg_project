@@ -1,103 +1,142 @@
-import { deleteTodo, updateTodo, updateUser } from "../services"
-import { useState, useEffect, useRef } from 'react'
-import UpdateTodoForm from "../forms/UpdateTodoForm"
+import { Container, Button, Typography } from '@material-ui/core';
+import { useState } from 'react';
+import DeleteIcon from '@material-ui/icons/Delete';
+import DoneIcon from '@material-ui/icons/Done';
+import { makeStyles } from '@material-ui/core/styles';
 
+import { deleteTodo, updateTodo, updateUser } from '../services';
+import { useEffect, useRef } from 'react';
 
+const useStyles = makeStyles((theme) => ({
+  container: {
+    borderRadius: '5px',
+    background: '#f6f6f6',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    flex: 1,
+    padding: '15px',
+    border: '3px solid black',
+    margin: '2px',
+    minWidth: '25%',
+    maxWidth: '33%',
+  },
+  buttonbox: {
+    flex: 1,
+    width: '80%',
+    marginTop: '10px',
+  },
+}));
 
-export default function TodoDetailComponent({user, todo, todos, setTodos, users, setUsers}) {
-    const [showDetails, setShowDetails] = useState(false)
-    const [showTodoUpdateForm, setShowTodoUpdateForm] = useState(false)
-    const isMountedValue = useRef(1)
+export default function TodoDetailComponent({
+  user,
+  todo,
+  setTodos,
+  setUsers,
+}) {
+  const [updatedTime, setUpdatedTime] = useState(0);
+  const [editTime, setEditTime] = useState(false);
+  const classes = useStyles();
 
-    
+  const isMountedValue = useRef(1);
 
-    /// understand this cleanup function
-    useEffect(() => {
-        isMountedValue.current = 1
-        return () => {isMountedValue.current = 0}
-    })
+  /// understand this cleanup function
+  useEffect(() => {
+    isMountedValue.current = 1;
+    return () => {
+      isMountedValue.current = 0;
+    };
+  });
 
-    const updateState = (callback) => {
-        if (isMountedValue.current){
-            callback()
-        }
+  const handleDelete = async (todoId, userId) => {
+    const remainingTodos = await deleteTodo(todoId);
+    setTodos(remainingTodos);
+  };
+
+  const cleanDate = (date) => {
+    if (date) {
+      const segments = date.split('-');
+      // const year = segments[2]
+      const readableDate = `${segments[2].slice(0, 2)}.${segments[1]}`;
+      return readableDate;
     }
+    return;
+  };
 
-    const handleDelete = async(todoId, userId) => {
-        const remainingTodos = await deleteTodo(todoId)
-        setTodos(remainingTodos)
+  const updateTime = async () => {
+    console.log(todo);
+    console.log({ ...todo, newtime: updatedTime });
+    const { updatedTodos } = await updateTodo(
+      { ...todo, newtime: updatedTime },
+      todo._id
+    );
+    setTodos(updatedTodos);
+    setEditTime(false);
+  };
+  const toggleComplete = async () => {
+    const { updatedTodos, updatedTodo } = await updateTodo(todo, todo._id);
+
+    if (updatedTodo.completed === true) {
+      var newScore = user.score + todo.timeSpent;
+      console.log(newScore);
+      const updatedUsers = await updateUser(user._id, { newScore: newScore });
+      setUsers([...updatedUsers]);
+    } else {
+      console.log('completed is false asshole');
     }
+    setTodos([...updatedTodos]);
+  };
 
-    const cleanDate = (date) => {
-        if (date) {
-      
-            const segments = date.split('-')
-            // const year = segments[2]
-            const readableDate = `${segments[2].slice(0,2)}.${segments[1]}`
-            return readableDate
-        }
-        return null
-        
-       
-    }
+  return (
+    <>
+      <Container className={classes.container} maxWidth="xl">
+        <Typography variant="h6">{todo.title}</Typography>
+        <Typography className={classes.detail}>
+          {' '}
+          Zeitraum: {cleanDate(todo.assignedOn)} - {cleanDate(todo.expiresOn)}
+        </Typography>
+        <Typography className={classes.detail}>
+          {' '}
+          geschätzte Dauer: {todo.timeSpent}
+        </Typography>
+        <Button onClick={() => setEditTime(!editTime)}>Zeit korrigieren</Button>
+        {editTime ? (
+          <div style={{ maxWdith: '150px' }}>
+            <input
+              type="number"
+              onChange={(e) => setUpdatedTime(e.target.value)}
+            ></input>{' '}
+            <button onClick={updateTime}>korrigieren</button>
+          </div>
+        ) : null}
 
-  
+        <div className={classes.buttonbox}>
+          {!todo.completed ? (
+            <Button
+              onClick={() => toggleComplete()}
+              style={{
+                border: '2px solid green',
+                color: 'green',
+                borderRadius: '4px',
+                marginRight: '10px',
+              }}
+            >
+              <DoneIcon />
+            </Button>
+          ) : null}
 
-    const handleEdit = () => {
-        setShowTodoUpdateForm(!showTodoUpdateForm)
-    }
-
-    const toggleComplete = async() => {
-
-        const toggledIdCompleted = await updateTodo(todo, todo._id)
-        if (toggledIdCompleted.completed === true){
-            const newScore = user.score + todo.pointsAwarded
-            
-            const updatedUser = await updateUser(user._id, {newScore: newScore})
-            const otherUsers = users.filter(user => user._id !== updatedUser._id)
-            setUsers([...otherUsers, updatedUser])
-        } else {
-            console.log("completed is false asshole")
-        }
-       
-
-        const otherTodos = todos.filter(todo => todo._id !== toggledIdCompleted._id)
-      
-        setTodos([...otherTodos, toggledIdCompleted])
-        
-
-    }
-
-    return (
-        <>
-        <div className="todo-container">
-            <div className ="todo-title-row"> 
-                <div className="todo-title">{todo.title}</div>
-                <button className="todo-button" onClick={() => setShowDetails(!showDetails)}>{showDetails ? 'Hide Details' : 'Show Details'}</button>
-                <button className="todo-button" onClick={() => handleDelete(todo._id, todo.user)}>Delete todo</button>
-            </div>
-            {showDetails ? <div className="todo-details">
-                <div>Beschreibung: {todo.description}</div>
-                <div>Zeitraum: {cleanDate(todo.assignedOn)} - {cleanDate(todo.expiresOn)}</div>
-                <div>Punkte: {todo.pointsAwarded}</div>
-                <div>geschaetzte Zeit: {todo.timeSpent}min</div>    
-                <div>Zustaendige Person: {todo.user}</div>
-                <button onClick={() => toggleComplete()}className={todo.completed ? 'isCompleted' : 'isNotCompleted'}>{todo.completed? 'Erledigt' : 'Nicht erledigt'}</button>  
-                <button className="todo-button" onClick={() => updateState(() => handleEdit(todo))}> Bearbeiten</button> 
-                <UpdateTodoForm 
-                    user={user} 
-                    todo={todo} 
-                    todos={todos} 
-                    users={users} 
-                    setUsers={setUsers} 
-                    setTodos={setTodos} 
-                    showTodoUpdateForm={showTodoUpdateForm} 
-                    setShowTodoUpdateForm={setShowTodoUpdateForm} />
-            </div> : null}
-           
+          <Button
+            onClick={() => handleDelete(todo._id, todo.user)}
+            style={{
+              border: '2px solid red',
+              color: 'red',
+              borderRadius: '4px',
+            }}
+          >
+            <DeleteIcon />
+          </Button>
         </div>
-        
-        
-        </>
-    )
+      </Container>
+    </>
+  );
 }
