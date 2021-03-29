@@ -1,8 +1,9 @@
 import axios from 'axios';
 
+const BASE_API_URL = 'http://localhost:5000';
 export const fetchUsers = async () => {
   try {
-    const response = await axios.get(`${process.env.REACT_APP_API}/users`);
+    const response = await axios.get(`${BASE_API_URL}/users`);
     return response.data;
   } catch (error) {
     console.log('fetchUsers failed');
@@ -11,34 +12,23 @@ export const fetchUsers = async () => {
 };
 
 export const deleteUser = async (user) => {
-  const response = await axios.delete(
-    `${process.env.REACT_APP_API}/users/${user._id}`
-  );
+  const response = await axios.delete(`${BASE_API_URL}/users/${user._id}`);
   return response.data;
 };
 
 export const registerUser = async (formData) => {
-  const response = await axios.post(
-    `${process.env.REACT_APP_API}/users`,
-    formData
-  );
+  const response = await axios.post(`${BASE_API_URL}/users`, formData);
   return response.data;
 };
 
 export const updateUser = async (userId, data) => {
-  const response = await axios.put(
-    `${process.env.REACT_APP_API}/users/${userId}`,
-    data
-  );
+  const response = await axios.put(`${BASE_API_URL}/users/${userId}`, data);
   return response.data;
 };
 
 export const login = async (formData) => {
   try {
-    const response = await axios.post(
-      `${process.env.REACT_APP_API}/users/login`,
-      formData
-    );
+    const response = await axios.post(`${BASE_API_URL}/users/login`, formData);
     localStorage.setItem('user', JSON.stringify(response.data));
     return response.data;
   } catch (error) {
@@ -55,29 +45,24 @@ export const logout = async (history) => {
 // Todos Servides
 
 export const fetchTodos = async () => {
-  const response = await axios.get(`${process.env.REACT_APP_API}/todos`);
+  const response = await axios.get(`${BASE_API_URL}/todos`);
   return response.data;
 };
 
 export const createTodo = async (formData) => {
-  const response = await axios.post(
-    `${process.env.REACT_APP_API}/todos`,
-    formData
-  );
+  const response = await axios.post(`${BASE_API_URL}/todos`, formData);
   return response.data;
 };
 
 export const updateTodo = async (updatedTodo, todoId) => {
   const response = await axios.put(
-    `${process.env.REACT_APP_API}/todos/${todoId}`,
+    `${BASE_API_URL}/todos/${todoId}`,
     updatedTodo
   );
   return response.data;
 };
 
 export const deleteTodo = async (todoId) => {
-  const response = await axios.delete(
-    `${process.env.REACT_APP_API}/todos/${todoId}`
-  );
+  const response = await axios.delete(`${BASE_API_URL}/todos/${todoId}`);
   return response.data;
 };
