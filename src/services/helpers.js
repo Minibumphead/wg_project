@@ -16,3 +16,19 @@ export const cleanDateWithYear = (date) => {
   }
   return null;
 };
+
+export const validateForm = (formData) => {
+  if (
+    !formData.title ||
+    !formData.timeSpent ||
+    !formData.username ||
+    !formData.assignedOn ||
+    !formData.expiresOn
+  ) {
+    console.log('validation failed');
+    return false;
+  } else {
+    console.log('all fields entered');
+    return true;
+  }
+};

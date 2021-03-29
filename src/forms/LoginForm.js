@@ -100,7 +100,7 @@ export default function LoginForm({ history }) {
 
           <button className={classes.submitbutton} onClick={handleSubmit}>
             {' '}
-            Log In{' '}
+            Anmdelden{' '}
           </button>
         </Paper>
       </div>

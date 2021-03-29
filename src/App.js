@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Header from './components/Header';
-import RegisterForm from './forms/RegisterForm';
+// import RegisterForm from './forms/RegisterForm';
 import LoginForm from './forms/LoginForm';
 import Admin from './pages/Admin';
 import Home from './pages/Home';
@@ -40,13 +40,13 @@ const App = () => {
           setUsers={setUsers}
         />
         <Route exact path="/login" component={LoginForm} />
-        <Route
+        {/* <Route
           exact
           path="/register"
           render={(props) => (
             <RegisterForm {...props} users={users} setUsers={setUsers} />
           )}
-        />
+        /> */}
         <AuthRoute
           path="/admin"
           users={users}

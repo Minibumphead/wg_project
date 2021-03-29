@@ -1,6 +1,6 @@
 import { Container, Typography, Grid, Button } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
-import EditIcon from '@material-ui/icons/Edit';
+// import EditIcon from '@material-ui/icons/Edit';
 import DoneIcon from '@material-ui/icons/Done';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { makeStyles } from '@material-ui/core/styles';
@@ -70,7 +70,7 @@ export default function Archive({ users, todos, setUsers, setTodos }) {
                     geschätzte Dauer: {todo.timeSpent}{' '}
                   </Typography>
 
-                  <Button
+                  {/* <Button
                     size="small"
                     style={{
                       fontSize: '15px',
@@ -80,7 +80,7 @@ export default function Archive({ users, todos, setUsers, setTodos }) {
                     }}
                   >
                     <EditIcon fontSize="inherit" />
-                  </Button>
+                  </Button> */}
                   <Button
                     size="small"
                     onClick={() => handleDelete(todo._id, todo.user)}

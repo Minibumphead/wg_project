@@ -72,6 +72,7 @@ export default function TodoDetailComponent({
   const updateTime = async (todo) => {
     const newTodo = { ...todo, timeSpent: updatedTime };
     const response = await updateTodo(newTodo, todo._id);
+    console.log(response);
     setTodos(response);
     setEditTime(false);
   };

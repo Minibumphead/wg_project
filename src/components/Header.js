@@ -86,19 +86,19 @@ function Header({ history, ...props }) {
                 onClick={() => logout(history)}
                 className={classes.textbutton}
               >
-                Log Out
+                Abmelden
               </Button>
             </div>
           </div>
         ) : (
           <div>
             <Button href="/login" className={classes.textbutton}>
-              Log In
-            </Button>
-
-            <Button href="/register" className={classes.textbutton}>
               Anmelden
             </Button>
+
+            {/* <Button href="/register" className={classes.textbutton}>
+              Anmelden
+            </Button> */}
           </div>
         )}
       </ToolBar>

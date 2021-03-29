@@ -8,6 +8,7 @@ import { Button, Paper } from '@material-ui/core';
 
 import { createTodo } from './../services/index';
 import Select from './../components/Select';
+import { validateForm } from '../services/helpers';
 
 const useStyles = makeStyles((theme) => ({
   formbody: {
@@ -39,6 +40,9 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: 'rgb(230,230,230)',
     },
   },
+  validation: {
+    background: 'red',
+  },
 }));
 
 export default function CreateTodoForm({
@@ -66,6 +70,7 @@ export default function CreateTodoForm({
     timeSpent: '',
     username: '',
   });
+  const [validationErrors, setValidationErrors] = useState();
 
   const handleChange = (event) => {
     event.preventDefault();
@@ -84,9 +89,22 @@ export default function CreateTodoForm({
   };
 
   const handleSubmit = async (event) => {
+    if (!validateForm(formData)) {
+      setValidationErrors('Bitte alle Felder ausfüllen');
+      return;
+    }
     event.preventDefault();
     const newTodo = await createTodo(formData);
     setTodos([...todos, newTodo]);
+    setValidationErrors('');
+    setFormData({
+      title: '',
+      description: '',
+      assignedOn: today,
+      expiresOn: nextWeek,
+      timeSpent: '',
+      username: '',
+    });
   };
 
   return (
@@ -150,6 +168,9 @@ export default function CreateTodoForm({
               }
             />
           </div>
+          {validationErrors ? (
+            <div className={classes.validation}>{validationErrors}</div>
+          ) : null}
           <Button className={classes.button} onClick={handleSubmit}>
             {' '}
             <AddIcon /> Hinzufügen{' '}
